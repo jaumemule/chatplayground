@@ -1,9 +1,9 @@
 var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+let port = 8080
 
 var numClients = 0;
-var chat = ""
 
 var randomHelloPhrases = [
     'Haaa hello!!!',
@@ -33,8 +33,6 @@ io.on('connection', function(socket) {
     });
 
     socket.on('chat', function(data) {
-        // chat += "<br>"
-        // chat += data.message
         io.emit('chat', { chat: data.nickname + ':' + ' ' + data.message });
     });  
 });
@@ -43,4 +41,5 @@ app.get('/', function(req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-server.listen(8080);
+server.listen(port);
+console.log('magic happens at port ' + port)

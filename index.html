@@ -1,0 +1,80 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io.connect('/');
+    socket.on('stats', function(data) {
+        document.getElementById('count').textContent = data.numClients
+        document.getElementById('message').textContent = data.message
+
+        setTimeout(function(){ disableMessage(); }, 3000);
+
+        function disableMessage()
+        {
+            document.getElementById('message').textContent = ""
+        }
+    });
+
+    socket.on('chat', function(data) {
+        document.getElementById('chatbox').innerHTML += "<br>" + data.chat
+    });
+
+    function sendmessage()
+        {
+            var messageText = document.getElementById('messageText').value
+            var nickname = document.getElementById('nickname').value
+            socket.emit('chat', { message: messageText, nickname: nickname });
+        }
+
+</script>
+<body style="background-color: rgb(216, 185, 83)">
+
+
+<article id="chatbox" style="color:white">
+
+</article>
+
+    <article style="
+    
+  top:50%;
+  left: 50%;
+  transform: translate3d(-50%,-70%, 0);
+  position: absolute;    
+  color:white;
+  font-size: 50px;
+    ">
+    
+    <h1 style="">Connected peeps</h1>
+    <p id="count" style="text-align: center;">
+        0
+    </p>
+</article>
+
+<article style="
+    
+top:50%;
+left: 50%;
+transform: translate3d(-50%,60%, 0);
+position: absolute;    
+color:white;
+font-size: 50px;
+  ">
+  
+<p id="message">
+    Lol.
+</p>
+</article>
+
+<article
+style="
+position: absolute;
+bottom:1%;
+right:1%;
+width: 20%;
+"
+>
+<input id="nickname" placeholder="nickname" value="anonymous" style="width: 100%; padding:4%">
+<input id="messageText" placeholder="your thoughts" style="width: 100%; padding:4%">
+<button onclick="sendmessage()" style="width: 100%; padding:1%">
+        Just post it
+    </button>
+</article>
+</body>

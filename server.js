@@ -23,12 +23,12 @@ var randomByePhrases = [
 
 io.on('connection', function(socket) {
     numClients++;
-    let messageNumber = Math.floor(Math.random() * 4);
+    let messageNumber = Math.floor(Math.random() * 5);
     io.emit('stats', { numClients: numClients, message: randomHelloPhrases[messageNumber] });
 
     socket.on('disconnect', function() {
         numClients--;
-        let messageNumber = Math.floor(Math.random() * 4);
+        let messageNumber = Math.floor(Math.random() * 5);
         io.emit('stats', { numClients: numClients, message: randomByePhrases[messageNumber] });
     });
 
